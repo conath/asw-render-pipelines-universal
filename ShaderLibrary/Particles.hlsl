@@ -102,7 +102,11 @@ float SoftParticles(float near, float far, ParticleParams params)
     if (near > 0.0 || far > 0.0)
     {
         float rawDepth = SampleSceneDepth(params.projectedPosition.xy / params.projectedPosition.w);
+<<<<<<< HEAD
+        float sceneZ = LinearEyeDepth(rawDepth, _ZBufferParams);
+=======
         float sceneZ = (unity_OrthoParams.w == 0) ? LinearEyeDepth(rawDepth, _ZBufferParams) : LinearDepthToEyeDepth(rawDepth);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         float thisZ = LinearEyeDepth(params.positionWS.xyz, GetWorldToViewMatrix());
         fade = saturate(far * ((sceneZ - near) - thisZ));
     }

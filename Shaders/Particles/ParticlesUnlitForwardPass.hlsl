@@ -1,6 +1,16 @@
 #ifndef UNIVERSAL_PARTICLES_UNLIT_FORWARD_PASS_INCLUDED
 #define UNIVERSAL_PARTICLES_UNLIT_FORWARD_PASS_INCLUDED
 
+<<<<<<< HEAD
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Particles.hlsl"
+
+void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData output)
+{
+    output = (InputData)0;
+
+    output.positionWS = input.positionWS.xyz;
+=======
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Unlit.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Particles.hlsl"
 
@@ -9,6 +19,7 @@ void InitializeInputData(VaryingsParticle input, SurfaceData surfaceData, out In
     inputData = (InputData)0;
 
     inputData.positionWS = input.positionWS.xyz;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 #ifdef _NORMALMAP
     half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);
@@ -130,6 +141,20 @@ half4 fragParticleUnlit(VaryingsParticle input) : SV_Target
     ParticleParams particleParams;
     InitParticleParams(input, particleParams);
 
+<<<<<<< HEAD
+    half4 albedo = SampleAlbedo(TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap), particleParams);
+    half3 normalTS = SampleNormalTS(particleParams.uv, particleParams.blendUv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap));
+
+#if defined (_DISTORTION_ON)
+    albedo.rgb = Distortion(albedo, normalTS, _DistortionStrengthScaled, _DistortionBlend, particleParams.projectedPosition);
+#endif
+
+#if defined(_EMISSION)
+    half3 emission = BlendTexture(TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap), particleParams.uv, particleParams.blendUv).rgb * _EmissionColor.rgb;
+#else
+    half3 emission = half3(0, 0, 0);
+#endif
+=======
     SurfaceData surfaceData;
     InitializeSurfaceData(particleParams, surfaceData);
     InputData inputData;
@@ -146,6 +171,7 @@ half4 fragParticleUnlit(VaryingsParticle input) : SV_Target
 
     finalColor.rgb = MixFog(finalColor.rgb, inputData.fogCoord);
     finalColor.a = OutputAlpha(finalColor.a, _Surface);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
     return finalColor;
 }

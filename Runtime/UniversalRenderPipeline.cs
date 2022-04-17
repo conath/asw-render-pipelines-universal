@@ -332,7 +332,11 @@ namespace UnityEngine.Rendering.Universal
                 cullingParams = cameraData.xr.cullingParams;
 
                 // Sync the FOV on the camera to match the projection from the XR device
+<<<<<<< HEAD
+                if (!cameraData.camera.usePhysicalProperties)
+=======
                 if (!cameraData.camera.usePhysicalProperties && !XRGraphicsAutomatedTests.enabled)
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                     cameraData.camera.fieldOfView = Mathf.Rad2Deg * Mathf.Atan(1.0f / cullingParams.stereoProjectionMatrix.m11) * 2.0f;
 
                 return true;
@@ -510,7 +514,18 @@ namespace UnityEngine.Rendering.Universal
             anyPostProcessingEnabled &= SystemInfo.graphicsDeviceType != GraphicsDeviceType.OpenGLES2;
 
             bool isStackedRendering = lastActiveOverlayCameraIndex != -1;
+            using (new ProfilingScope(null, Profiling.Pipeline.beginCameraRendering))
+            {
+                BeginCameraRendering(context, baseCamera);
+            }
 
+<<<<<<< HEAD
+            // Update volumeframework before initializing additional camera data
+            UpdateVolumeFramework(baseCamera, baseCameraAdditionalData);
+            InitializeCameraData(baseCamera, baseCameraAdditionalData, !isStackedRendering, out var baseCameraData);
+
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #if ENABLE_VR && ENABLE_XR_MODULE
             var xrActive = false;
             var xrRendering = true;
@@ -544,12 +559,28 @@ namespace UnityEngine.Rendering.Universal
                 baseCameraData.isStereoEnabled = xrPass.enabled;
 #pragma warning restore 0618
 
+<<<<<<< HEAD
+                if (baseCameraData.xr.enabled)
+                {
+                    xrActive = true;
+                    // Helper function for updating cameraData with xrPass Data
+                    m_XRSystem.UpdateCameraData(ref baseCameraData, baseCameraData.xr);
+
+                    // Update volume manager to use baseCamera's settings for XR multipass rendering.
+                    if (baseCameraData.xr.multipassId > 0)
+                    {
+                        UpdateVolumeFramework(baseCamera, baseCameraAdditionalData);
+                    }
+					m_XRSystem.BeginLateLatching(baseCamera, xrPass);
+                }
+=======
                 // Helper function for updating cameraData with xrPass Data
                 m_XRSystem.UpdateCameraData(ref baseCameraData, baseCameraData.xr);
                 // Need to update XRSystem using baseCameraData to handle the case where camera position is modified in BeginCameraRendering
                 m_XRSystem.UpdateFromCamera(ref baseCameraData.xr, baseCameraData);
                 m_XRSystem.BeginLateLatching(baseCamera, xrPass);
             }
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #endif
 
 #if VISUAL_EFFECT_GRAPH_0_0_1_OR_NEWER
@@ -560,12 +591,49 @@ namespace UnityEngine.Rendering.Universal
             if (asset.useAdaptivePerformance)
                 ApplyAdaptivePerformance(ref baseCameraData);
 #endif
+<<<<<<< HEAD
+                RenderSingleCamera(context, baseCameraData, anyPostProcessingEnabled);
+                using (new ProfilingScope(null, Profiling.Pipeline.endCameraRendering))
+                {
+                    EndCameraRendering(context, baseCamera);
+                }
+#if ENABLE_VR && ENABLE_XR_MODULE
+                m_XRSystem.EndLateLatching(baseCamera, xrPass);
+#endif
+                if (isStackedRendering)
+                {
+                    for (int i = 0; i < cameraStack.Count; ++i)
+                    {
+                        var currCamera = cameraStack[i];
+                        if (!currCamera.isActiveAndEnabled)
+                            continue;
+
+                        currCamera.TryGetComponent<UniversalAdditionalCameraData>(out var currCameraData);
+                        // Camera is overlay and enabled
+                        if (currCameraData != null)
+                        {
+                            // Copy base settings from base camera data and initialize initialize remaining specific settings for this camera type.
+                            CameraData overlayCameraData = baseCameraData;
+                            bool lastCamera = i == lastActiveOverlayCameraIndex;
+
+                            using (new ProfilingScope(null, Profiling.Pipeline.beginCameraRendering))
+                            {
+                                BeginCameraRendering(context, currCamera);
+                            }
+#if VISUAL_EFFECT_GRAPH_0_0_1_OR_NEWER
+                            //It should be called before culling to prepare material. When there isn't any VisualEffect component, this method has no effect.
+                            VFX.VFXManager.PrepareCamera(currCamera);
+#endif
+                            UpdateVolumeFramework(currCamera, currCameraData);
+                            InitializeAdditionalCameraData(currCamera, currCameraData, lastCamera, ref overlayCameraData);
+=======
             RenderSingleCamera(context, baseCameraData, anyPostProcessingEnabled);
             using (new ProfilingScope(null, Profiling.Pipeline.endCameraRendering))
             {
                 EndCameraRendering(context, baseCamera);
             }
 
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #if ENABLE_VR && ENABLE_XR_MODULE
             m_XRSystem.EndLateLatching(baseCamera, xrPass);
 #endif
@@ -648,9 +716,15 @@ namespace UnityEngine.Rendering.Universal
             bool shouldUpdate = camera.cameraType == CameraType.SceneView;
             shouldUpdate |= additionalCameraData != null && additionalCameraData.requiresVolumeFrameworkUpdate;
 
+<<<<<<< HEAD
+            #if UNITY_EDITOR
+            shouldUpdate |= Application.isPlaying == false;
+            #endif
+=======
 #if UNITY_EDITOR
             shouldUpdate |= Application.isPlaying == false;
 #endif
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
             // When we have volume updates per-frame disabled...
             if (!shouldUpdate && additionalCameraData)
@@ -741,7 +815,11 @@ namespace UnityEngine.Rendering.Universal
 #if ENABLE_VR && ENABLE_XR_MODULE
             // Use XR's MSAA if camera is XR camera. XR MSAA needs special handle here because it is not per Camera.
             // Multiple cameras could render into the same XR display and they should share the same MSAA level.
+<<<<<<< HEAD
+            if (cameraData.xrRendering)
+=======
             if (cameraData.xrRendering && rendererSupportsMSAA)
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                 msaaSamples = XRSystem.GetMSAALevel();
 #endif
 
@@ -1242,6 +1320,8 @@ namespace UnityEngine.Rendering.Universal
 
             // Required for 2D Unlit Shadergraph master node as it doesn't currently support hidden properties.
             Shader.SetGlobalColor(ShaderPropertyId.rendererColor, Color.white);
+<<<<<<< HEAD
+=======
         }
 
         static void CheckAndApplyDebugSettings(ref RenderingData renderingData)
@@ -1336,6 +1416,7 @@ namespace UnityEngine.Rendering.Universal
             }
 
             return filter;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         }
 
 #if ADAPTIVE_PERFORMANCE_2_0_0_OR_NEWER

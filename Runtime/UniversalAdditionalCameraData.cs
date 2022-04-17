@@ -3,7 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine.Serialization;
+<<<<<<< HEAD
+using UnityEngine.Rendering;
+using System.ComponentModel;
 using UnityEngine.Assertions;
+
+namespace UnityEngine.Rendering.LWRP
+{
+    [Obsolete("LWRP -> Universal (UnityUpgradable) -> UnityEngine.Rendering.Universal.UniversalAdditionalCameraData", true)]
+    public class LWRPAdditionalCameraData
+    {
+    }
+}
+=======
+using UnityEngine.Assertions;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 namespace UnityEngine.Rendering.Universal
 {
@@ -269,6 +283,10 @@ namespace UnityEngine.Rendering.Universal
         [SerializeField] bool m_AllowXRRendering = true;
 
         [NonSerialized] Camera m_Camera;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         // Deprecated:
         [FormerlySerializedAs("requiresDepthTexture"), SerializeField]
         bool m_RequiresDepthTexture = false;
@@ -307,8 +325,11 @@ namespace UnityEngine.Rendering.Universal
                 return m_Camera;
             }
         }
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         /// <summary>
         /// Controls if this camera should render shadows.
         /// </summary>

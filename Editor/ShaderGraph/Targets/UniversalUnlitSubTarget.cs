@@ -26,8 +26,14 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             context.AddAssetDependency(kSourceCodeGuid, AssetCollection.Flags.SourceDependency);
             base.Setup(ref context);
 
+<<<<<<< HEAD
+            // Process SubShaders
+            SubShaderDescriptor[] subShaders = { SubShaders.UnlitDOTS, SubShaders.Unlit };
+            for(int i = 0; i < subShaders.Length; i++)
+=======
             var universalRPType = typeof(UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset);
             if (!context.HasCustomEditorForRenderPipeline(universalRPType))
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             {
                 var gui = typeof(ShaderGraphUnlitGUI);
 #if HAS_VFX_GRAPH
@@ -180,6 +186,22 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
 
                 result.passes.Add(PassVariant(UnlitPasses.Forward(target), CorePragmas.DOTSForward));
 
+<<<<<<< HEAD
+                    return new SubShaderDescriptor()
+                    {
+                        pipelineTag = UniversalTarget.kPipelineTag,
+                        customTags = UniversalTarget.kUnlitMaterialTypeTag,
+                        generatesPreview = true,
+                        passes = new PassCollection
+                        {
+                            { unlit },
+                            { shadowCaster },
+                            { depthOnly },
+                            { CorePasses.MotionVectors },
+                        },
+                    };
+                }
+=======
                 if (target.mayWriteDepth)
                     result.passes.Add(PassVariant(CorePasses.DepthOnly(target), CorePragmas.DOTSInstanced));
 
@@ -196,6 +218,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                 result.passes.Add(PassVariant(UnlitPasses.DepthNormalOnly(target), CorePragmas.DOTSInstanced));
 
                 return result;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             }
         }
         #endregion

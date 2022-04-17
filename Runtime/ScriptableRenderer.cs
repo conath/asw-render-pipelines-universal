@@ -523,11 +523,14 @@ namespace UnityEngine.Rendering.Universal
             useRenderPassEnabled = data.useNativeRenderPass && SystemInfo.graphicsDeviceType != GraphicsDeviceType.OpenGLES2;
             Clear(CameraRenderType.Base);
             m_ActiveRenderPassQueue.Clear();
+<<<<<<< HEAD
+=======
 
             if (UniversalRenderPipeline.asset)
                 m_StoreActionsOptimizationSetting = UniversalRenderPipeline.asset.storeActionsOptimization;
 
             m_UseOptimizedStoreActions = m_StoreActionsOptimizationSetting != StoreActionsOptimization.Store;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         }
 
         public void Dispose()
@@ -560,6 +563,8 @@ namespace UnityEngine.Rendering.Universal
             m_CameraDepthTarget = depthTarget;
         }
 
+<<<<<<< HEAD
+=======
         internal void ConfigureCameraTarget(RenderTargetIdentifier colorTarget, RenderTargetIdentifier depthTarget, RenderTargetIdentifier resolveTarget)
         {
             m_CameraColorTarget = colorTarget;
@@ -567,6 +572,7 @@ namespace UnityEngine.Rendering.Universal
             m_CameraResolveTarget = resolveTarget;
         }
 
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         // This should be removed when early camera color target assignment is removed.
         internal void ConfigureCameraColorTarget(RenderTargetIdentifier colorTarget)
         {
@@ -975,11 +981,15 @@ namespace UnityEngine.Rendering.Universal
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
 
+<<<<<<< HEAD
+            renderPass.Execute(context, ref renderingData);
+=======
             if (IsRenderPassEnabled(renderPass) && cameraData.isRenderPassSupportedCamera)
                 ExecuteNativeRenderPass(context, renderPass, cameraData, ref renderingData);
             else
                 renderPass.Execute(context, ref renderingData);
 
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #if ENABLE_VR && ENABLE_XR_MODULE
             if (cameraData.xr.enabled && cameraData.xr.hasMarkedLateLatch)
                 cameraData.xr.UnmarkLateLatchShaderProperties(cmd, ref cameraData);
@@ -1202,6 +1212,18 @@ namespace UnityEngine.Rendering.Universal
                         SetRenderTarget(cmd, passColorAttachment, passDepthAttachment, finalClearFlag, finalClearColor, renderPass.colorStoreActions[0], renderPass.depthStoreAction);
 
 #if ENABLE_VR && ENABLE_XR_MODULE
+<<<<<<< HEAD
+                    if (cameraData.xr.enabled)
+                    {
+                        bool isOculusMotionVec = renderPass is Internal.OculusMotionVectorPass;
+
+                        // SetRenderTarget might alter the internal device state(winding order).
+                        // Non-stereo buffer is already updated internally when switching render target. We update stereo buffers here to keep the consistency.
+                        bool isRenderToBackBufferTarget = ((passColorAttachment == cameraData.xr.renderTarget) && !cameraData.xr.renderTargetIsRenderTexture) ||
+                                ((passColorAttachment == cameraData.xr.motionVectorRenderTarget) && !cameraData.xr.motionVectorRenderTargetIsRenderTexture);
+                        cameraData.xr.UpdateGPUViewAndProjectionMatrices(cmd, ref cameraData, !isRenderToBackBufferTarget, isOculusMotionVec);
+                    }
+=======
                         if (cameraData.xr.enabled)
                         {
                             bool isOculusMotionVec = renderPass is Internal.OculusMotionVectorPass;
@@ -1211,6 +1233,7 @@ namespace UnityEngine.Rendering.Universal
                                 ((passColorAttachment == cameraData.xr.motionVectorRenderTarget) && !cameraData.xr.motionVectorRenderTargetIsRenderTexture);
                             cameraData.xr.UpdateGPUViewAndProjectionMatrices(cmd, ref cameraData, !isRenderToBackBufferTarget, isOculusMotionVec);
                         }
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #endif
                     }
                 }

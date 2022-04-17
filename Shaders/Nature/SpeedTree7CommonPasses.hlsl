@@ -271,6 +271,10 @@ half4 SpeedTree7FragDepthNormal(SpeedTreeVertexDepthNormalOutput input) : SV_Tar
         AlphaDiscard(diffuse.a, _Cutoff);
     #endif
 
+<<<<<<< HEAD
+    float3 normalWS = input.normalWS.xyz;
+    return float4(PackNormalOctRectEncode(TransformWorldToViewDir(normalWS, true)), 0.0, 0.0);
+=======
     #if defined(EFFECT_BUMP)
         half3 normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap));
         #ifdef GEOM_TYPE_BRANCH_DETAIL
@@ -285,6 +289,7 @@ half4 SpeedTree7FragDepthNormal(SpeedTreeVertexDepthNormalOutput input) : SV_Tar
     #endif
 
     return half4(NormalizeNormalPerPixel(normalWS), 0.0);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 }
 
 #endif

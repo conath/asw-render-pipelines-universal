@@ -4,11 +4,19 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Particles.hlsl"
 
+<<<<<<< HEAD
+void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData output)
+{
+    output = (InputData)0;
+
+    output.positionWS = input.positionWS.xyz;
+=======
 void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData inputData)
 {
     inputData = (InputData)0;
 
     inputData.positionWS = input.positionWS.xyz;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 #ifdef _NORMALMAP
     half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);
@@ -122,6 +130,10 @@ half4 ParticlesLitFragment(VaryingsParticle input) : SV_Target
     half3 emission = half3(0, 0, 0);
 #endif
     half4 specularGloss = SampleSpecularSmoothness(particleParams.uv, particleParams.blendUv, albedo.a, _SpecColor, TEXTURE2D_ARGS(_SpecGlossMap, sampler_SpecGlossMap));
+<<<<<<< HEAD
+    half shininess = specularGloss.a;
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 #if defined(_DISTORTION_ON)
     diffuse = Distortion(half4(diffuse, alpha), normalTS, _DistortionStrengthScaled, _DistortionBlend, particleParams.projectedPosition);
@@ -130,8 +142,12 @@ half4 ParticlesLitFragment(VaryingsParticle input) : SV_Target
     InputData inputData;
     InitializeInputData(input, normalTS, inputData);
 
+<<<<<<< HEAD
+    half4 color = UniversalFragmentBlinnPhong(inputData, diffuse, specularGloss, shininess, emission, alpha);
+=======
     half4 color = UniversalFragmentBlinnPhong(inputData, diffuse, specularGloss, specularGloss.a, emission, alpha, normalTS);
 
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, _Surface);
 

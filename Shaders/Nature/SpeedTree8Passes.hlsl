@@ -365,12 +365,16 @@ half4 SpeedTree8Frag(SpeedTreeFragmentInput input) : SV_Target
 
 #if !defined(SHADER_QUALITY_LOW)
     #ifdef LOD_FADE_CROSSFADE // enable dithering LOD transition if user select CrossFade transition in LOD group
+<<<<<<< HEAD
+        LODDitheringTransition(input.interpolated.clipPos.xy, unity_LODFade.x);
+=======
         #ifdef EFFECT_BUMP
             half3 viewDirectionWS = half3(input.interpolated.normalWS.w, input.interpolated.tangentWS.w, input.interpolated.bitangentWS.w);
         #else
             half3 viewDirectionWS = input.interpolated.viewDirWS;
         #endif
         LODDitheringTransition(ComputeFadeMaskSeed(viewDirectionWS, input.interpolated.clipPos.xy), unity_LODFade.x);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     #endif
 #endif
 
@@ -452,6 +456,21 @@ half4 SpeedTree8Frag(SpeedTreeFragmentInput input) : SV_Target
     emission = directSubsurface + indirectSubsurface;
     #endif
 
+    // subsurface (hijack emissive)
+    #ifdef EFFECT_SUBSURFACE
+    	Light mainLight = GetMainLight();
+	half fSubsurfaceRough = 0.7 - smoothness * 0.5;
+	half fSubsurface = D_GGX(clamp(-dot(mainLight.direction.xyz, inputData.viewDirectionWS.xyz), 0, 1), fSubsurfaceRough); 
+
+    float4 shadowCoord = TransformWorldToShadowCoord(inputData.positionWS);
+    half realtimeShadow = MainLightRealtimeShadow(shadowCoord);
+	float3 tintedSubsurface = tex2D(_SubsurfaceTex, uv).rgb * _SubsurfaceColor.rgb;
+        float3 directSubsurface = tintedSubsurface.rgb * mainLight.color.rgb * fSubsurface * realtimeShadow; 
+	float3 indirectSubsurface = tintedSubsurface.rgb * inputData.bakedGI.rgb * _SubsurfaceIndirect;
+	emission = directSubsurface + indirectSubsurface;
+    #endif
+
+
 #ifdef GBUFFER
     // in LitForwardPass GlobalIllumination (and temporarily LightingPhysicallyBased) are called inside UniversalFragmentPBR
     // in Deferred rendering we store the sum of these values (and of emission as well) in the GBuffer
@@ -498,7 +517,11 @@ half4 SpeedTree8FragDepth(SpeedTreeVertexDepthOutput input) : SV_Target
 
 #if !defined(SHADER_QUALITY_LOW)
     #ifdef LOD_FADE_CROSSFADE // enable dithering LOD transition if user select CrossFade transition in LOD group
+<<<<<<< HEAD
+        LODDitheringTransition(input.clipPos.xy, unity_LODFade.x);
+=======
         LODDitheringTransition(ComputeFadeMaskSeed(input.viewDirWS, input.clipPos.xy), unity_LODFade.x);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     #endif
 #endif
 
@@ -557,12 +580,16 @@ half4 SpeedTree8FragDepthNormal(SpeedTreeDepthNormalFragmentInput input) : SV_Ta
 
     #if !defined(SHADER_QUALITY_LOW)
         #ifdef LOD_FADE_CROSSFADE // enable dithering LOD transition if user select CrossFade transition in LOD group
+<<<<<<< HEAD
+            LODDitheringTransition(input.interpolated.clipPos.xy, unity_LODFade.x);
+=======
             #ifdef EFFECT_BUMP
                 half3 viewDirectionWS = half3(input.interpolated.normalWS.w, input.interpolated.tangentWS.w, input.interpolated.bitangentWS.w);
             #else
                 half3 viewDirectionWS = input.interpolated.viewDirWS;
             #endif
             LODDitheringTransition(ComputeFadeMaskSeed(viewDirectionWS, input.interpolated.clipPos.xy), unity_LODFade.x);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         #endif
     #endif
 
@@ -572,6 +599,10 @@ half4 SpeedTree8FragDepthNormal(SpeedTreeDepthNormalFragmentInput input) : SV_Ta
     half alpha = diffuse.a * input.interpolated.color.a;
     AlphaDiscard(alpha, 0.3333);
 
+<<<<<<< HEAD
+    float3 normalWS = NormalizeNormalPerPixel(input.interpolated.normalWS.xyz);
+    return float4(PackNormalOctRectEncode(TransformWorldToViewDir(normalWS, true)), 0.0, 0.0);
+=======
     // normal
     #if defined(EFFECT_BUMP)
         half3 normalTs = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap));
@@ -599,6 +630,7 @@ half4 SpeedTree8FragDepthNormal(SpeedTreeDepthNormalFragmentInput input) : SV_Ta
     #else
         return half4(NormalizeNormalPerPixel(input.interpolated.normalWS), 0.0h);
     #endif
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 }
 
 #endif

@@ -65,6 +65,10 @@ namespace UnityEngine.Experimental.Rendering.Universal
                 m_ShaderTagIdList.Add(new ShaderTagId("SRPDefaultUnlit"));
                 m_ShaderTagIdList.Add(new ShaderTagId("UniversalForward"));
                 m_ShaderTagIdList.Add(new ShaderTagId("UniversalForwardOnly"));
+<<<<<<< HEAD
+                m_ShaderTagIdList.Add(new ShaderTagId("LightweightForward"));
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             }
 
             m_RenderStateBlock = new RenderStateBlock(RenderStateMask.Nothing);

@@ -15,6 +15,8 @@ struct Varyings
     UNITY_VERTEX_OUTPUT_STEREO
 };
 
+<<<<<<< HEAD
+=======
 bool IsSmoothRotation(float3 prevAxis1, float3 prevAxis2, float3 currAxis1, float3 currAxis2)
 {
     float angleThreshold = 0.984f; // cos(10 degrees)
@@ -22,6 +24,24 @@ bool IsSmoothRotation(float3 prevAxis1, float3 prevAxis2, float3 currAxis1, floa
     return all(angleDot > angleThreshold);
 }
 
+// Best effort for particles, we'll just take into account the camera motion.
+Varyings vertParticles(Attributes input)
+{
+    Varyings output = (Varyings)0;
+    UNITY_SETUP_INSTANCE_ID(input);
+    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+    VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+    output.positionCS = vertexInput.positionCS;
+
+    float3 curWS = TransformObjectToWorld(input.positionOS.xyz);
+    output.curPositionCS = TransformWorldToHClip(curWS);
+    output.prevPositionCS = TransformWorldToPrevHClip(curWS);
+
+    return output;
+}
+
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 Varyings vert(Attributes input)
 {
     Varyings output = (Varyings)0;
@@ -42,6 +62,9 @@ Varyings vert(Attributes input)
         bool hasDeformation = unity_MotionVectorsParams.x > 0.0;
         float3 effectivePositionOS = (hasDeformation ? input.previousPositionOS : input.positionOS.xyz);
         float3 previousWS = TransformPreviousObjectToWorld(effectivePositionOS);
+<<<<<<< HEAD
+        output.prevPositionCS = TransformWorldToPrevHClip(previousWS);
+=======
 
         float4x4 previousOTW = GetPrevObjectToWorldMatrix();
         float4x4 currentOTW = GetObjectToWorldMatrix();
@@ -53,6 +76,7 @@ Varyings vert(Attributes input)
         {
             output.prevPositionCS = TransformWorldToPrevHClip(previousWS);
         }
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     }
 
     return output;

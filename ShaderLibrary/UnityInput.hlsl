@@ -146,11 +146,17 @@ real4 unity_SHBr;
 real4 unity_SHBg;
 real4 unity_SHBb;
 real4 unity_SHC;
+<<<<<<< HEAD
+float4x4 unity_MatrixPreviousM;
+float4x4 unity_MatrixPreviousMI;
+//X : Use last frame positions (right now skinned meshes are the only objects that use this)
+=======
 
 // Velocity
 float4x4 unity_MatrixPreviousM;
 float4x4 unity_MatrixPreviousMI;
 //X : Use last frame positions (right now skinned meshes are the only objects that use this
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 //Y : Force No Motion
 //Z : Z bias value
 //W : Camera only

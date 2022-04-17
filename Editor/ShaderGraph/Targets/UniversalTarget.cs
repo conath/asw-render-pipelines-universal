@@ -309,6 +309,12 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             m_ActiveSubTarget.value.target = this;
         }
 
+        public override void OnAfterMultiDeserialize(string json)
+        {
+            TargetUtils.ProcessSubTargetList(ref m_ActiveSubTarget, ref m_SubTargets);
+            m_ActiveSubTarget.value.target = this;
+        }
+
         public override void GetFields(ref TargetFieldContext context)
         {
             var descs = context.blocks.Select(x => x.descriptor);
@@ -730,6 +736,38 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                 lightMode = "DepthOnly",
                 useInPreview = true,
 
+<<<<<<< HEAD
+            // Conditional State
+            renderStates = CoreRenderStates.ShadowCaster,
+            pragmas = CorePragmas.Instanced,
+            includes = CoreIncludes.ShadowCaster,
+        };
+
+        public static readonly PassDescriptor MotionVectors = new PassDescriptor()
+        {
+            // Definition
+            displayName = "MotionVectors",
+            referenceName = "SHADERPASS_MOTIONVECTORS",
+            lightMode = "MotionVectors",
+
+            // Template
+            passTemplatePath = GenerationUtils.GetDefaultTemplatePath("PassMesh.template"),
+            sharedTemplateDirectories = GenerationUtils.GetDefaultSharedTemplateDirectories(),
+
+            // Port Mask
+            validVertexBlocks = CoreBlockMasks.Vertex,
+
+            // Fields
+            structs = CoreStructCollections.Default,
+            requiredFields = CoreRequiredFields.MotionVectors,
+            fieldDependencies = CoreFieldDependencies.Default,
+
+            // Conditional State
+            renderStates = CoreRenderStates.Default,
+            pragmas = CorePragmas.DOTSInstanced,
+            includes = CoreIncludes.MotionVectors,
+        };
+=======
                 // Template
                 passTemplatePath = UniversalTarget.kUberTemplatePath,
                 sharedTemplateDirectories = UniversalTarget.kSharedTemplateDirectories,
@@ -1060,6 +1098,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
 
             return result;
         }
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     }
     #endregion
 
@@ -1123,6 +1162,13 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             StructFields.Attributes.uv1,                            // needed for meta vertex position
             StructFields.Varyings.normalWS,
             StructFields.Varyings.tangentWS,                        // needed for vertex lighting
+        };
+
+        public static readonly FieldCollection MotionVectors = new FieldCollection()
+        {
+            StructFields.Attributes.uv4,                   // needed for previousPositionOS
+            UniversalStructFields.Varyings.curPositionCS,
+            UniversalStructFields.Varyings.prevPositionCS,
         };
 
         public static readonly FieldCollection MotionVectors = new FieldCollection()
@@ -1329,7 +1375,11 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
         public static readonly PragmaCollection Default = new PragmaCollection
         {
             { Pragma.Target(ShaderModel.Target20) },
+<<<<<<< HEAD
+            { Pragma.OnlyRenderers(new[]{ Platform.GLES, Platform.GLES3, Platform.GLCore, Platform.D3D11 }) },
+=======
             { Pragma.OnlyRenderers(new[] { Platform.GLES, Platform.GLES3, Platform.GLCore, Platform.D3D11 }) },
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             { Pragma.Vertex("vert") },
             { Pragma.Fragment("frag") },
         };
@@ -1337,7 +1387,11 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
         public static readonly PragmaCollection Instanced = new PragmaCollection
         {
             { Pragma.Target(ShaderModel.Target20) },
+<<<<<<< HEAD
+            { Pragma.OnlyRenderers(new[]{ Platform.GLES, Platform.GLES3, Platform.GLCore, Platform.D3D11 }) },
+=======
             { Pragma.OnlyRenderers(new[] { Platform.GLES, Platform.GLES3, Platform.GLCore, Platform.D3D11 }) },
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             { Pragma.MultiCompileInstancing },
             { Pragma.Vertex("vert") },
             { Pragma.Fragment("frag") },
@@ -1346,7 +1400,11 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
         public static readonly PragmaCollection Forward = new PragmaCollection
         {
             { Pragma.Target(ShaderModel.Target20) },
+<<<<<<< HEAD
+            { Pragma.OnlyRenderers(new[]{ Platform.GLES, Platform.GLES3, Platform.GLCore, Platform.D3D11 }) },
+=======
             { Pragma.OnlyRenderers(new[] { Platform.GLES, Platform.GLES3, Platform.GLCore, Platform.D3D11 }) },
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             { Pragma.MultiCompileInstancing },
             { Pragma.MultiCompileFog },
             { Pragma.InstancingOptions(InstancingOptions.RenderingLayer) },
@@ -1420,8 +1478,11 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
         const string kDepthNormalsOnlyPass = "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/DepthNormalsOnlyPass.hlsl";
         const string kShadowCasterPass = "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShadowCasterPass.hlsl";
         const string kTextureStack = "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl";
+<<<<<<< HEAD
+=======
         const string kDBuffer = "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DBuffer.hlsl";
         const string kSelectionPickingPass = "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/SelectionPickingPass.hlsl";
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         const string kMotionVectors = "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/OculusMotionVectors.hlsl";
 
         public static readonly IncludeCollection CorePregraph = new IncludeCollection
@@ -1476,6 +1537,22 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             { CorePostgraph },
             { kShadowCasterPass, IncludeLocation.Postgraph },
         };
+<<<<<<< HEAD
+
+        public static readonly IncludeCollection MotionVectors = new IncludeCollection
+        {
+            // Pre-graph
+            { CoreIncludes.CorePregraph },
+            { CoreIncludes.ShaderGraphPregraph },
+
+            // Post-graph
+            { CoreIncludes.CorePostgraph },
+            { kMotionVectors, IncludeLocation.Postgraph },
+        };
+    }
+#endregion
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
         public static readonly IncludeCollection DBufferPregraph = new IncludeCollection
         {
@@ -1893,6 +1970,10 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
     {
         public static readonly FieldDescriptor UseLegacySpriteBlocks = new FieldDescriptor("Universal", "UseLegacySpriteBlocks", "UNIVERSAL_USELEGACYSPRITEBLOCKS");
     }
+<<<<<<< HEAD
+#endregion
+}
+=======
     #endregion
 
     #region CustomInterpolators
@@ -1911,3 +1992,4 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
     }
     #endregion
 }
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76

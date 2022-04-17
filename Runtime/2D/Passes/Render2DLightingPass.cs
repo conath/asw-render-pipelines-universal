@@ -72,6 +72,8 @@ namespace UnityEngine.Rendering.Universal
                     sortingSettings.distanceMetric = DistanceMetric.CustomAxis;
                     sortingSettings.customAxis = m_Renderer2DData.transparencySortAxis;
                     break;
+<<<<<<< HEAD
+=======
             }
         }
 
@@ -148,6 +150,7 @@ namespace UnityEngine.Rendering.Universal
             {
                 resolveDuringBatch = lastVolumetricLightBatch;
                 resolveIsAfterCopy = false;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             }
         }
 
@@ -387,9 +390,12 @@ namespace UnityEngine.Rendering.Universal
             else
             {
                 var unlitDrawSettings = CreateDrawingSettings(k_ShaderTags, ref renderingData, SortingCriteria.CommonTransparent);
+<<<<<<< HEAD
+=======
                 var msaaEnabled = renderingData.cameraData.cameraTargetDescriptor.msaaSamples > 1;
                 var storeAction = msaaEnabled ? RenderBufferStoreAction.Resolve : RenderBufferStoreAction.Store;
 
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                 var sortSettings = unlitDrawSettings.sortingSettings;
                 GetTransparencySortingMode(camera, ref sortSettings);
                 unlitDrawSettings.sortingSettings = sortSettings;

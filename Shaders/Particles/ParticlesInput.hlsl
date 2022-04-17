@@ -5,6 +5,21 @@
 
 struct AttributesParticle
 {
+<<<<<<< HEAD
+    float4 vertex : POSITION;
+    half4 color : COLOR;
+
+    #if defined(_FLIPBOOKBLENDING_ON) && !defined(UNITY_PARTICLE_INSTANCING_ENABLED)
+        float4 texcoords : TEXCOORD0;
+        float texcoordBlend : TEXCOORD1;
+    #else
+        float2 texcoords : TEXCOORD0;
+    #endif
+
+    #if !defined(PARTICLES_EDITOR_META_PASS)
+        float3 normal : NORMAL;
+        float4 tangent : TANGENT;
+=======
     float4 positionOS               : POSITION;
     half4 color                     : COLOR;
 
@@ -18,6 +33,7 @@ struct AttributesParticle
     #if !defined(PARTICLES_EDITOR_META_PASS)
         float3 normalOS             : NORMAL;
         float4 tangentOS            : TANGENT;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     #endif
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
@@ -36,12 +52,21 @@ struct VaryingsParticle
         float4 positionWS           : TEXCOORD1;
 
         #ifdef _NORMALMAP
+<<<<<<< HEAD
+            float4 normalWS         : TEXCOORD2;    // xyz: normal, w: viewDir.x
+            float4 tangentWS        : TEXCOORD3;    // xyz: tangent, w: viewDir.y
+            float4 bitangentWS      : TEXCOORD4;    // xyz: bitangent, w: viewDir.z
+        #else
+            float3 normalWS         : TEXCOORD2;
+            float3 viewDirWS        : TEXCOORD3;
+=======
             half4 normalWS         : TEXCOORD2;    // xyz: normal, w: viewDir.x
             half4 tangentWS        : TEXCOORD3;    // xyz: tangent, w: viewDir.y
             half4 bitangentWS      : TEXCOORD4;    // xyz: bitangent, w: viewDir.z
         #else
             half3 normalWS         : TEXCOORD2;
             half3 viewDirWS        : TEXCOORD3;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         #endif
 
         #if defined(_SOFTPARTICLES_ON) || defined(_FADING_ON) || defined(_DISTORTION_ON)
@@ -52,6 +77,9 @@ struct VaryingsParticle
             float4 shadowCoord      : TEXCOORD7;
         #endif
 
+<<<<<<< HEAD
+        float3 vertexSH             : TEXCOORD8; // SH
+=======
         half3 vertexSH             : TEXCOORD8; // SH
     #endif
 
@@ -140,6 +168,7 @@ struct VaryingsDepthNormalsParticle
     #else
         float3 normalWS                 : TEXCOORD2;
         float3 viewDirWS                : TEXCOORD3;
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     #endif
 
     UNITY_VERTEX_INPUT_INSTANCE_ID

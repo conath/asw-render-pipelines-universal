@@ -100,6 +100,12 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             {
                 SubShaderDescriptor result = new SubShaderDescriptor()
                 {
+<<<<<<< HEAD:com.unity.render-pipelines.universal/Editor/ShaderGraph/Targets/UniversalSpriteUnlitSubTarget.cs
+                    { SpriteUnlitPasses.Unlit },
+                    { SpriteUnlitPasses.Forward },
+                },
+            };
+=======
                     pipelineTag = UniversalTarget.kPipelineTag,
                     customTags = UniversalTarget.kUnlitMaterialTypeTag,
                     renderType = $"{RenderType.Transparent}",
@@ -117,6 +123,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                 };
                 return result;
             }
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76:com.unity.render-pipelines.universal/Editor/2D/ShaderGraph/Targets/UniversalSpriteUnlitSubTarget.cs
         }
         #endregion
 
@@ -130,6 +137,35 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
                 referenceName = "SHADERPASS_SPRITEUNLIT",
                 lightMode = "Universal2D",
                 useInPreview = true,
+
+
+                // Template
+                passTemplatePath = GenerationUtils.GetDefaultTemplatePath("PassMesh.template"),
+                sharedTemplateDirectories = GenerationUtils.GetDefaultSharedTemplateDirectories(),
+
+                // Port Mask
+                validVertexBlocks = CoreBlockMasks.Vertex,
+                validPixelBlocks = SpriteUnlitBlockMasks.Fragment,
+
+                // Fields
+                structs = CoreStructCollections.Default,
+                requiredFields = SpriteUnlitRequiredFields.Unlit,
+                fieldDependencies = CoreFieldDependencies.Default,
+
+                // Conditional State
+                renderStates = CoreRenderStates.Default,
+                pragmas = CorePragmas._2DDefault,
+                includes = SpriteUnlitIncludes.Unlit,
+            };
+
+            public static PassDescriptor Forward = new PassDescriptor
+            {
+                // Definition
+                displayName = "Sprite Unlit",
+                referenceName = "SHADERPASS_SPRITEFORWARD",
+                lightMode = "UniversalForward",
+                useInPreview = true,
+
 
                 // Template
                 passTemplatePath = GenerationUtils.GetDefaultTemplatePath("PassMesh.template"),

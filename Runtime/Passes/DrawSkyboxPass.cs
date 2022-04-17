@@ -57,26 +57,44 @@ namespace UnityEngine.Rendering.Universal
                     // Disable Legacy XR path
                     cmd.SetSinglePassStereo(SinglePassStereoMode.None);
                     context.ExecuteCommandBuffer(cmd);
+<<<<<<< HEAD
+                    // We do not need to submit here due to special handling of stereo matricies in core.
+                    // context.Submit();
+                    CommandBufferPool.Release(cmd);
+
+                    renderingData.cameraData.camera.ResetStereoProjectionMatrices();
+                    renderingData.cameraData.camera.ResetStereoViewMatrices();
+=======
                     // We do not need to submit here due to special handling of stereo matrices in core.
                     // context.Submit();
                     CommandBufferPool.Release(cmd);
 
                     camera.ResetStereoProjectionMatrices();
                     camera.ResetStereoViewMatrices();
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                 }
                 else
                 {
                     camera.projectionMatrix = cameraData.GetProjectionMatrix(0);
                     camera.worldToCameraMatrix = cameraData.GetViewMatrix(0);
 
+<<<<<<< HEAD
+                    context.DrawSkybox(renderingData.cameraData.camera);
+=======
                     context.DrawSkybox(camera);
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
                     // XRTODO: remove this call because it creates issues with nested profiling scopes
                     // See examples in UniversalRenderPipeline.RenderSingleCamera() and in ScriptableRenderer.Execute()
                     context.Submit(); // Submit and execute the skybox pass before resetting the matrices
 
+<<<<<<< HEAD
+                    renderingData.cameraData.camera.ResetProjectionMatrix();
+                    renderingData.cameraData.camera.ResetWorldToCameraMatrix();
+=======
                     camera.ResetProjectionMatrix();
                     camera.ResetWorldToCameraMatrix();
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                 }
             }
             else

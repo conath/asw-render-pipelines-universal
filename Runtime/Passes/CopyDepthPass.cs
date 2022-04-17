@@ -78,6 +78,10 @@ namespace UnityEngine.Rendering.Universal.Internal
                 if (SystemInfo.supportsMultisampleAutoResolve || SystemInfo.supportsMultisampledTextures == 0)
                     cameraSamples = 1;
 
+                // When auto resolve is supported or multisampled texture is not supported, set camera samples to 1
+                if (SystemInfo.supportsMultisampleAutoResolve || SystemInfo.supportsMultisampledTextures == 0)
+                    cameraSamples = 1;
+
                 CameraData cameraData = renderingData.cameraData;
 
                 switch (cameraSamples)

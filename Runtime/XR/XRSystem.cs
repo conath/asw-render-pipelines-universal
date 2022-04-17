@@ -153,7 +153,11 @@ namespace UnityEngine.Rendering.Universal
             }
         }
 
+<<<<<<< HEAD
+        internal List<XRPass> SetupFrame(CameraData cameraData)
+=======
         internal List<XRPass> SetupFrame(Camera camera, bool enableXRRendering)
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         {
             bool xrEnabled = RefreshXrSdk();
 
@@ -276,7 +280,30 @@ namespace UnityEngine.Rendering.Universal
         // Used for camera stacking where we need to update the parameters per camera
         internal void UpdateFromCamera(ref XRPass xrPass, CameraData cameraData)
         {
+<<<<<<< HEAD
+            bool isGameCamera = (cameraData.camera.cameraType == CameraType.Game || cameraData.camera.cameraType == CameraType.VR);
+            if (XRGraphicsAutomatedTests.enabled && XRGraphicsAutomatedTests.running && isGameCamera)
+            {
+                // XR test framework code path. Update 2nd view with camera's view projection data
+                Matrix4x4 projMatrix = cameraData.camera.projectionMatrix;
+                Matrix4x4 viewMatrix = cameraData.camera.worldToCameraMatrix;
+                Rect      viewport = new Rect(0, 0, testRenderTexture.width, testRenderTexture.height);
+                int       textureArraySlice = -1;
+                xrPass.UpdateView(1, projMatrix, viewMatrix, viewport, textureArraySlice);
+
+                // Update culling params for this xr pass using camera's culling params
+                cameraData.camera.TryGetCullingParameters(false, out var cullingParams);
+                cullingParams.stereoProjectionMatrix = cameraData.camera.projectionMatrix;
+                cullingParams.stereoViewMatrix = cameraData.camera.worldToCameraMatrix;
+
+                //// Disable legacy stereo culling path
+                cullingParams.cullingOptions &= ~CullingOptions.Stereo;
+                xrPass.UpdateCullingParams(0, cullingParams);
+            }
+            else if (xrPass.enabled && display != null)
+=======
             if (xrPass.enabled && display != null)
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             {
                 display.GetRenderPass(xrPass.multipassId, out var renderPass);
                 display.GetCullingParameters(cameraData.camera, renderPass.cullingPassIndex, out var cullingParams);

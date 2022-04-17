@@ -33,8 +33,13 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 1
+<<<<<<< HEAD
+    aniso: -1
+    mipBias: -100
+=======
     aniso: 1
     mipBias: 0
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     wrapU: 1
     wrapV: 1
     wrapW: 1

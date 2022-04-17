@@ -4,6 +4,11 @@ using UnityEditor.ProjectWindowCallback;
 using UnityEditor.Rendering.Universal;
 #endif
 using System;
+<<<<<<< HEAD
+using UnityEngine.Scripting.APIUpdating;
+using System.ComponentModel;
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 namespace UnityEngine.Rendering.Universal
 {
@@ -32,6 +37,17 @@ namespace UnityEngine.Rendering.Universal
             [Reload("Shaders/Utils/Sampling.shader")]
             public Shader samplingPS;
 
+<<<<<<< HEAD
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            //[Reload("Shaders/Utils/TileDepthInfo.shader")]
+            public Shader tileDepthInfoPS;
+
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            //[Reload("Shaders/Utils/TileDeferred.shader")]
+            public Shader tileDeferredPS;
+            
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             [Reload("Shaders/Utils/StencilDeferred.shader")]
             public Shader stencilDeferredPS;
 
@@ -105,6 +121,12 @@ namespace UnityEngine.Rendering.Universal
             set { throw new NotSupportedException(k_ErrorMessage); }
         }
 
+<<<<<<< HEAD
+        /// <summary>
+        /// Rendering mode. Only Forward rendering is supported in this version.
+        /// </summary>
+=======
+>>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         public RenderingMode renderingMode
         {
             get { throw new NotSupportedException(k_ErrorMessage); }
