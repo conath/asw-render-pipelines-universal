@@ -103,11 +103,7 @@ namespace UnityEditor.Rendering.Universal
         internal static List<string> s_ImportedAssetThatNeedSaving = new List<string>();
         internal static bool s_NeedsSavingAssets = false;
 
-<<<<<<< HEAD
-        internal static readonly Action<Material, ShaderPathID>[] k_Upgraders = { UpgradeV1, UpgradeV2, UpgradeV3, UpgradeV4 };
-=======
         internal static readonly Action<Material, ShaderID>[] k_Upgraders = { UpgradeV1, UpgradeV2, UpgradeV3, UpgradeV4, UpgradeV5 };
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
         static internal void SaveAssetsToDisk()
         {
@@ -177,19 +173,11 @@ namespace UnityEditor.Rendering.Universal
                     {
                         assetVersion.version = k_Upgraders.Length;
                         s_CreatedAssets.Remove(asset);
-<<<<<<< HEAD
-                        InitializeLatest(material, id);
-=======
                         InitializeLatest(material, shaderID);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                         debug += " initialized.";
                     }
                     else
                     {
-<<<<<<< HEAD
-                        assetVersion.version = UniversalProjectSettings.materialVersionForUpgrade;
-                        debug += $" assumed to be version {UniversalProjectSettings.materialVersionForUpgrade} due to missing version.";
-=======
                         if (shaderID.IsShaderGraph())
                         {
                             // ShaderGraph materials NEVER had asset versioning applied prior to version 5.
@@ -202,7 +190,6 @@ namespace UnityEditor.Rendering.Universal
                             assetVersion.version = UniversalProjectSettings.materialVersionForUpgrade;
                             debug += $" assumed to be version {UniversalProjectSettings.materialVersionForUpgrade} due to missing version.";
                         }
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                     }
 
                     assetVersion.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.NotEditable;
@@ -311,10 +298,6 @@ namespace UnityEditor.Rendering.Universal
             }
         }
 
-<<<<<<< HEAD
-        static void UpgradeV4(Material material, ShaderPathID shaderID)
-        {}
-=======
         static void UpgradeV4(Material material, ShaderID shaderID)
         { }
 
@@ -337,7 +320,6 @@ namespace UnityEditor.Rendering.Universal
                 }
             }
         }
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     }
 
     // Upgraders v1

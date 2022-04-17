@@ -462,47 +462,12 @@ namespace UnityEngine.Rendering.Universal.Internal
             // Cachre result for DX10 platform too. Same reasons as above.
             DeferredConfig.IsDX10 = SystemInfo.graphicsDeviceType == GraphicsDeviceType.Direct3D11 && SystemInfo.graphicsShaderLevel <= 40;
 
-<<<<<<< HEAD
-            if (m_TileDeferredMaterial != null)
-            {
-                m_TileDeferredMaterial.SetInt(ShaderConstants._LitStencilRef, (int)StencilUsage.MaterialLit);
-                m_TileDeferredMaterial.SetInt(ShaderConstants._LitStencilReadMask, (int)StencilUsage.MaterialMask);
-                m_TileDeferredMaterial.SetInt(ShaderConstants._LitStencilWriteMask, 0);
-                m_TileDeferredMaterial.SetInt(ShaderConstants._SimpleLitStencilRef, (int)StencilUsage.MaterialSimpleLit);
-                m_TileDeferredMaterial.SetInt(ShaderConstants._SimpleLitStencilReadMask, (int)StencilUsage.MaterialMask);
-                m_TileDeferredMaterial.SetInt(ShaderConstants._SimpleLitStencilWriteMask, 0);
-            }
-
-
-            if (m_StencilDeferredMaterial != null)
-            {
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._StencilRef, (int)StencilUsage.MaterialUnlit);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._StencilReadMask, (int)StencilUsage.MaterialMask);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._StencilWriteMask, (int)StencilUsage.StencilLight);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._LitPunctualStencilRef, (int)StencilUsage.StencilLight | (int)StencilUsage.MaterialLit);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._LitPunctualStencilReadMask, (int)StencilUsage.StencilLight | (int)StencilUsage.MaterialMask);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._LitPunctualStencilWriteMask, (int)StencilUsage.StencilLight);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._SimpleLitPunctualStencilRef, (int)StencilUsage.StencilLight | (int)StencilUsage.MaterialSimpleLit);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._SimpleLitPunctualStencilReadMask, (int)StencilUsage.StencilLight | (int)StencilUsage.MaterialMask);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._SimpleLitPunctualStencilWriteMask, (int)StencilUsage.StencilLight);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._LitDirStencilRef, (int)StencilUsage.MaterialLit);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._LitDirStencilReadMask, (int)StencilUsage.MaterialMask);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._LitDirStencilWriteMask, 0);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._SimpleLitDirStencilRef, (int)StencilUsage.MaterialSimpleLit);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._SimpleLitDirStencilReadMask, (int)StencilUsage.MaterialMask);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._SimpleLitDirStencilWriteMask, 0);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._ClearStencilRef, 0);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._ClearStencilReadMask, (int)StencilUsage.MaterialMask);
-                m_StencilDeferredMaterial.SetInt(ShaderConstants._ClearStencilWriteMask, (int)StencilUsage.MaterialMask);
-            }
-=======
             m_TileDepthInfoMaterial = initParams.tileDepthInfoMaterial;
             m_TileDeferredMaterial = initParams.tileDeferredMaterial;
             m_StencilDeferredMaterial = initParams.stencilDeferredMaterial;
 
             m_TileDeferredPasses = new int[k_TileDeferredPassNames.Length];
             InitTileDeferredMaterial();
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
             m_StencilDeferredPasses = new int[k_StencilDeferredPassNames.Length];
             InitStencilDeferredMaterial();
@@ -1396,8 +1361,6 @@ namespace UnityEngine.Rendering.Universal.Internal
                 return;
             }
 
-<<<<<<< HEAD
-=======
             // Workaround for bug.
             // When changing the URP asset settings (ex: shadow cascade resolution), all ScriptableRenderers are recreated but
             // materials passed in have not finished initializing at that point if they have fallback shader defined. In particular deferred shaders only have 1 pass available,
@@ -1405,7 +1368,6 @@ namespace UnityEngine.Rendering.Universal.Internal
             if (m_TileDeferredPasses[0] < 0)
                 InitTileDeferredMaterial();
 
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             Profiler.BeginSample(k_DeferredTiledPass);
 
             // Allow max 256 draw calls for rendering all the batches of tiles

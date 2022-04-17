@@ -149,9 +149,6 @@ namespace UnityEngine.Rendering.Universal.Internal
             m_Descriptor = baseDescriptor;
             m_Descriptor.useMipMap = false;
             m_Descriptor.autoGenerateMips = false;
-<<<<<<< HEAD
-            m_Source = source;
-=======
             m_Source = source.id;
             m_Depth = depth;
             m_InternalLut = internalLut;
@@ -170,7 +167,6 @@ namespace UnityEngine.Rendering.Universal.Internal
             m_Descriptor.useMipMap = false;
             m_Descriptor.autoGenerateMips = false;
             m_Source = source.id;
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             m_Destination = destination;
             m_Depth = depth;
             m_InternalLut = internalLut;

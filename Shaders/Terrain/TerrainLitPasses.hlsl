@@ -153,19 +153,11 @@ void SplatmapMix(float4 uvMainAndLM, float4 uvSplat01, float4 uvSplat23, inout h
     defaultSmoothness = half4(diffAlbedo[0].a, diffAlbedo[1].a, diffAlbedo[2].a, diffAlbedo[3].a);
     defaultSmoothness *= half4(_Smoothness0, _Smoothness1, _Smoothness2, _Smoothness3);
 
-<<<<<<< HEAD
-#ifndef _TERRAIN_BLEND_HEIGHT
-    if(_NumLayersCount <= 4)
-    {
-        // 20.0 is the number of steps in inputAlphaMask (Density mask. We decided 20 empirically)
-        half4 opacityAsDensity = saturate((half4(diffAlbedo[0].a, diffAlbedo[1].a, diffAlbedo[2].a, diffAlbedo[3].a) - (half4(1.0, 1.0, 1.0, 1.0) - splatControl)) * 20.0);
-=======
 #ifndef _TERRAIN_BLEND_HEIGHT // density blending
     if(_NumLayersCount <= 4)
     {
         // 20.0 is the number of steps in inputAlphaMask (Density mask. We decided 20 empirically)
         half4 opacityAsDensity = saturate((half4(diffAlbedo[0].a, diffAlbedo[1].a, diffAlbedo[2].a, diffAlbedo[3].a) - (1 - splatControl)) * 20.0);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         opacityAsDensity += 0.001h * splatControl;      // if all weights are zero, default to what the blend mask says
         half4 useOpacityAsDensityParam = { _DiffuseRemapScale0.w, _DiffuseRemapScale1.w, _DiffuseRemapScale2.w, _DiffuseRemapScale3.w }; // 1 is off
         splatControl = lerp(opacityAsDensity, splatControl, useOpacityAsDensityParam);
@@ -352,11 +344,7 @@ half4 SplatmapFragment(Varyings IN) : SV_TARGET
     float2 splatUV = (IN.uvMainAndLM.xy * (_Control_TexelSize.zw - 1.0f) + 0.5f) * _Control_TexelSize.xy;
     half4 splatControl = SAMPLE_TEXTURE2D(_Control, sampler_Control, splatUV);
 
-<<<<<<< HEAD
-    half alpha = dot(splatControl, half4(1.0h, 1.0h, 1.0h, 1.0h));
-=======
     half alpha = dot(splatControl, 1.0h);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #ifdef _TERRAIN_BLEND_HEIGHT
     // disable Height Based blend when there are more than 4 layers (multi-pass breaks the normalization)
     if (_NumLayersCount <= 4)
@@ -507,11 +495,7 @@ VaryingsLean DepthOnlyVertex(AttributesLean v)
     TerrainInstancing(v.position, v.normalOS);
     o.clipPos = TransformObjectToHClip(v.position.xyz);
     o.texcoord = v.texcoord;
-<<<<<<< HEAD
-	return o;
-=======
     return o;
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 }
 
 half4 DepthOnlyFragment(VaryingsLean IN) : SV_TARGET
@@ -526,85 +510,4 @@ half4 DepthOnlyFragment(VaryingsLean IN) : SV_TARGET
     return 0;
 }
 
-<<<<<<< HEAD
-
-// DepthNormal pass
-struct AttributesDepthNormal
-{
-    float4 positionOS : POSITION;
-    float3 normalOS : NORMAL;
-    float2 texcoord : TEXCOORD0;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
-};
-
-struct VaryingsDepthNormal
-{
-    float4 uvMainAndLM              : TEXCOORD0; // xy: control, zw: lightmap
-    #ifndef TERRAIN_SPLAT_BASEPASS
-        float4 uvSplat01                : TEXCOORD1; // xy: splat0, zw: splat1
-        float4 uvSplat23                : TEXCOORD2; // xy: splat2, zw: splat3
-    #endif
-
-    #if defined(_NORMALMAP) && !defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
-        float4 normal                   : TEXCOORD3;    // xyz: normal, w: viewDir.x
-        float4 tangent                  : TEXCOORD4;    // xyz: tangent, w: viewDir.y
-        float4 bitangent                : TEXCOORD5;    // xyz: bitangent, w: viewDir.z
-    #else
-        float3 normal                   : TEXCOORD3;
-    #endif
-
-    float4 clipPos                  : SV_POSITION;
-    UNITY_VERTEX_OUTPUT_STEREO
-};
-
-VaryingsDepthNormal DepthNormalOnlyVertex(AttributesDepthNormal v)
-{
-    VaryingsDepthNormal o = (VaryingsDepthNormal)0;
-
-    UNITY_SETUP_INSTANCE_ID(v);
-    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-    TerrainInstancing(v.positionOS, v.normalOS, v.texcoord);
-
-    VertexPositionInputs Attributes = GetVertexPositionInputs(v.positionOS.xyz);
-
-    o.uvMainAndLM.xy = v.texcoord;
-    o.uvMainAndLM.zw = v.texcoord * unity_LightmapST.xy + unity_LightmapST.zw;
-    #ifndef TERRAIN_SPLAT_BASEPASS
-        o.uvSplat01.xy = TRANSFORM_TEX(v.texcoord, _Splat0);
-        o.uvSplat01.zw = TRANSFORM_TEX(v.texcoord, _Splat1);
-        o.uvSplat23.xy = TRANSFORM_TEX(v.texcoord, _Splat2);
-        o.uvSplat23.zw = TRANSFORM_TEX(v.texcoord, _Splat3);
-    #endif
-
-    #if defined(_NORMALMAP) && !defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
-        half3 viewDirWS = GetWorldSpaceViewDir(Attributes.positionWS);
-        #if !SHADER_HINT_NICE_QUALITY
-            viewDirWS = SafeNormalize(viewDirWS);
-        #endif
-        float4 vertexTangent = float4(cross(float3(0, 0, 1), v.normalOS), 1.0);
-        VertexNormalInputs normalInput = GetVertexNormalInputs(v.normalOS, vertexTangent);
-
-        o.normal = half4(normalInput.normalWS, viewDirWS.x);
-        o.tangent = half4(normalInput.tangentWS, viewDirWS.y);
-        o.bitangent = half4(normalInput.bitangentWS, viewDirWS.z);
-    #else
-        o.normal = TransformObjectToWorldNormal(v.normalOS);
-    #endif
-
-    o.clipPos = Attributes.positionCS;
-    return o;
-}
-
-half4 DepthNormalOnlyFragment(VaryingsDepthNormal IN) : SV_TARGET
-{
-    #ifdef _ALPHATEST_ON
-        ClipHoles(IN.uvMainAndLM.xy);
-    #endif
-
-    half3 normalWS = IN.normal.xyz;
-    return float4(PackNormalOctRectEncode(TransformWorldToViewDir(normalWS, true)), 0.0, 0.0);
-}
-
-=======
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #endif

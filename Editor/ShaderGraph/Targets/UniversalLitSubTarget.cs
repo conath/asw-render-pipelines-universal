@@ -139,14 +139,6 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             context.AddBlock(BlockFields.SurfaceDescription.NormalWS, normalDropOffSpace == NormalDropOffSpace.World);
             context.AddBlock(BlockFields.SurfaceDescription.Emission);
             context.AddBlock(BlockFields.SurfaceDescription.Occlusion);
-<<<<<<< HEAD
-            context.AddBlock(BlockFields.SurfaceDescription.Specular,           workflowMode == WorkflowMode.Specular);
-            context.AddBlock(BlockFields.SurfaceDescription.Metallic,           workflowMode == WorkflowMode.Metallic);
-            context.AddBlock(BlockFields.SurfaceDescription.Alpha,              target.surfaceType == SurfaceType.Transparent || target.alphaClip);
-            context.AddBlock(BlockFields.SurfaceDescription.AlphaClipThreshold, target.alphaClip);
-            context.AddBlock(BlockFields.SurfaceDescription.CoatMask,           clearCoat);
-            context.AddBlock(BlockFields.SurfaceDescription.CoatSmoothness,     clearCoat);
-=======
 
             // when the surface options are material controlled, we must show all of these blocks
             // when target controlled, we can cull the unnecessary blocks
@@ -186,7 +178,6 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
             // We initialize queue control to -1 to indicate to UpdateMaterial that it needs to initialize it properly on the material.
             collector.AddFloatProperty(Property.QueueOffset, 0.0f);
             collector.AddFloatProperty(Property.QueueControl, -1.0f);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         }
 
         public override void GetPropertiesGUI(ref TargetPropertyGUIContext context, Action onChange, Action<String> registerUndo)
@@ -372,83 +363,6 @@ namespace UnityEditor.Rendering.Universal.ShaderGraph
 
                 return result;
             }
-<<<<<<< HEAD
-            #endregion
-
-            // SM 4.5, compute with dots instancing
-            public readonly static SubShaderDescriptor LitComputeDOTS = new SubShaderDescriptor()
-            {
-                pipelineTag = UniversalTarget.kPipelineTag,
-                customTags = UniversalTarget.kLitMaterialTypeTag,
-                generatesPreview = true,
-                passes = new PassCollection
-                {
-                    { PassVariant(LitPasses.Forward,         CorePragmas.DOTSForward) },
-                    { LitPasses.GBuffer },
-                    { PassVariant(CorePasses.ShadowCaster,   CorePragmas.DOTSInstanced) },
-                    { PassVariant(CorePasses.DepthOnly,      CorePragmas.DOTSInstanced) },
-                    { PassVariant(LitPasses.DepthNormalOnly, CorePragmas.DOTSInstanced) },
-                    { PassVariant(LitPasses.Meta,            CorePragmas.DOTSDefault) },
-                    { PassVariant(LitPasses._2D,             CorePragmas.DOTSDefault) },
-                    { CorePasses.MotionVectors },
-                },
-            };
-
-            // Similar to lit, but handles complex material features.
-            // Always ForwardOnly and acts as forward fallback in deferred.
-            // SM 4.5, compute with dots instancing
-            public readonly static SubShaderDescriptor ComplexLitComputeDOTS = new SubShaderDescriptor()
-            {
-                pipelineTag = UniversalTarget.kPipelineTag,
-                customTags = UniversalTarget.kLitMaterialTypeTag,
-                generatesPreview = true,
-                passes = new PassCollection
-                {
-                    { PassVariant(LitPasses.ForwardOnly,     CoreBlockMasks.Vertex, LitBlockMasks.FragmentComplexLit, CorePragmas.DOTSForward, LitDefines.ComplexLit ) },
-                    { PassVariant(CorePasses.ShadowCaster,   CorePragmas.DOTSInstanced) },
-                    { PassVariant(CorePasses.DepthOnly,      CorePragmas.DOTSInstanced) },
-                    { PassVariant(LitPasses.DepthNormalOnly, CorePragmas.DOTSInstanced) },
-                    { PassVariant(LitPasses.Meta,            CorePragmas.DOTSDefault)   },
-                    { PassVariant(LitPasses._2D,             CorePragmas.DOTSDefault)   },
-                },
-            };
-
-            // SM 2.0, GLES
-            public readonly static SubShaderDescriptor LitGLES = new SubShaderDescriptor()
-            {
-                pipelineTag = UniversalTarget.kPipelineTag,
-                customTags = UniversalTarget.kLitMaterialTypeTag,
-                generatesPreview = true,
-                passes = new PassCollection
-                {
-                    { LitPasses.Forward },
-                    { CorePasses.ShadowCaster },
-                    { CorePasses.DepthOnly },
-                    { LitPasses.DepthNormalOnly },
-                    { LitPasses.Meta },
-                    { LitPasses._2D },
-                },
-            };
-
-            // ForwardOnly pass for SM 2.0, GLES
-            // Used as complex Lit SM 2.0 fallback for GLES. Drops advanced features and renders materials as Lit.
-            public readonly static SubShaderDescriptor LitGLESForwardOnly = new SubShaderDescriptor()
-            {
-                pipelineTag = UniversalTarget.kPipelineTag,
-                customTags = UniversalTarget.kLitMaterialTypeTag,
-                generatesPreview = true,
-                passes = new PassCollection
-                {
-                    { LitPasses.ForwardOnly },
-                    { CorePasses.ShadowCaster },
-                    { CorePasses.DepthOnly },
-                    { LitPasses.DepthNormalOnly },
-                    { LitPasses.Meta },
-                    { LitPasses._2D },
-                },
-            };
-=======
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         }
         #endregion
 

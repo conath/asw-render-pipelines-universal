@@ -6,10 +6,6 @@ namespace UnityEngine.Rendering.Universal
     internal class Renderer2D : ScriptableRenderer
     {
         Render2DLightingPass m_Render2DLightingPass;
-<<<<<<< HEAD
-        PostProcessPass m_PostProcessPass;
-=======
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         PixelPerfectBackgroundPass m_PixelPerfectBackgroundPass;
         FinalBlitPass m_FinalBlitPass;
         Light2DCullResult m_LightCullResult;
@@ -43,14 +39,7 @@ namespace UnityEngine.Rendering.Universal
             m_BlitMaterial = CoreUtils.CreateEngineMaterial(data.blitShader);
             m_SamplingMaterial = CoreUtils.CreateEngineMaterial(data.samplingShader);
 
-<<<<<<< HEAD
-            m_ColorGradingLutPass = new ColorGradingLutPass(RenderPassEvent.BeforeRenderingOpaques, data.postProcessData);
-            m_Render2DLightingPass = new Render2DLightingPass(data);
-            m_PostProcessPass = new PostProcessPass(RenderPassEvent.BeforeRenderingPostProcessing, data.postProcessData, m_BlitMaterial);
-            m_FinalPostProcessPass = new PostProcessPass(RenderPassEvent.AfterRenderingPostProcessing, data.postProcessData, m_BlitMaterial);
-=======
             m_Render2DLightingPass = new Render2DLightingPass(data, m_BlitMaterial, m_SamplingMaterial);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             // we should determine why clearing the camera target is set so late in the events... sounds like it could be earlier
             m_PixelPerfectBackgroundPass = new PixelPerfectBackgroundPass(RenderPassEvent.AfterRenderingTransparents);
             m_FinalBlitPass = new FinalBlitPass(RenderPassEvent.AfterRendering + 1, m_BlitMaterial);
@@ -153,8 +142,6 @@ namespace UnityEngine.Rendering.Universal
             bool ppcUsesOffscreenRT = false;
             bool ppcUpscaleRT = false;
 
-<<<<<<< HEAD
-=======
             bool savedIsOrthographic = renderingData.cameraData.camera.orthographic;
             float savedOrthographicSize = renderingData.cameraData.camera.orthographicSize;
 
@@ -170,7 +157,6 @@ namespace UnityEngine.Rendering.Universal
                 DebugHandler.Setup(context, ref cameraData);
             }
 
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 #if UNITY_EDITOR
             // The scene view camera cannot be uninitialized or skybox when using the 2D renderer.
             if (cameraData.cameraType == CameraType.SceneView)
@@ -261,14 +247,7 @@ namespace UnityEngine.Rendering.Universal
                 colorTargetHandle = postProcessDestHandle;
             }
 
-<<<<<<< HEAD
-            if (ppc != null && ppc.isRunning && (ppc.cropFrameX || ppc.cropFrameY))
-                EnqueuePass(m_PixelPerfectBackgroundPass);
-
-            if (requireFinalPostProcessPass)
-=======
             if (ppc != null && ppc.enabled && (ppc.cropFrame == PixelPerfectCamera.CropFrame.Pillarbox || ppc.cropFrame == PixelPerfectCamera.CropFrame.Letterbox || ppc.cropFrame == PixelPerfectCamera.CropFrame.Windowbox || ppc.cropFrame == PixelPerfectCamera.CropFrame.StretchFill))
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             {
                 m_PixelPerfectBackgroundPass.Setup(savedIsOrthographic, savedOrthographicSize);
                 EnqueuePass(m_PixelPerfectBackgroundPass);

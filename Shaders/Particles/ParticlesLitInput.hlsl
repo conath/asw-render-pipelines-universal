@@ -71,11 +71,7 @@ half4 SampleAlbedo(TEXTURE2D_PARAM(albedoMap, sampler_albedoMap), ParticleParams
     colorAddSubDiff = _BaseColorAddSubDiff;
 #endif
     // No distortion Support
-<<<<<<< HEAD
-    albedo = MixParticleColor(albedo, params.vertexColor, colorAddSubDiff);
-=======
     albedo = MixParticleColor(albedo, half4(params.vertexColor), colorAddSubDiff);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
     AlphaDiscard(albedo.a, _Cutoff);
 
@@ -164,44 +160,6 @@ inline void InitializeParticleLitSurfaceData(ParticleParams params, out SurfaceD
 
     outSurfaceData.clearCoatMask       = half(0.0);
     outSurfaceData.clearCoatSmoothness = half(1.0);
-}
-
-inline void InitializeParticleLitSurfaceData(ParticleParams params, out SurfaceData outSurfaceData)
-{
-    half4 albedo = SampleAlbedo(TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap), params);
-
-    #if defined(_METALLICSPECGLOSSMAP)
-        half2 metallicGloss = BlendTexture(TEXTURE2D_ARGS(_MetallicGlossMap, sampler_MetallicGlossMap), params.uv, params.blendUv).ra * half2(1.0, _Smoothness);
-    #else
-        half2 metallicGloss = half2(_Metallic, _Smoothness);
-    #endif
-
-    half3 normalTS = SampleNormalTS(params.uv, params.blendUv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap), _BumpScale);
-
-    #if defined(_EMISSION)
-        half3 emission = BlendTexture(TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap), params.uv, params.blendUv).rgb * _EmissionColor.rgb;
-    #else
-        half3 emission = half3(0, 0, 0);
-    #endif
-
-    #if defined(_DISTORTION_ON)
-        albedo.rgb = Distortion(albedo, normalTS, _DistortionStrengthScaled, _DistortionBlend, params.projectedPosition);
-    #endif
-
-    outSurfaceData = (SurfaceData)0;
-    outSurfaceData.albedo = albedo.rgb;
-    outSurfaceData.specular = half3(0.0h, 0.0h, 0.0h);
-    outSurfaceData.normalTS = normalTS;
-    outSurfaceData.emission = emission;
-    outSurfaceData.metallic = metallicGloss.r;
-    outSurfaceData.smoothness = metallicGloss.g;
-    outSurfaceData.occlusion = 1.0;
-
-    outSurfaceData.albedo = AlphaModulate(outSurfaceData.albedo, albedo.a);
-    outSurfaceData.alpha = albedo.a;
-
-    outSurfaceData.clearCoatMask       = 0.0h;
-    outSurfaceData.clearCoatSmoothness = 1.0h;
 }
 
 #endif // UNIVERSAL_PARTICLES_LIT_INPUT_INCLUDED

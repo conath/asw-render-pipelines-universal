@@ -4,19 +4,11 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Particles.hlsl"
 
-<<<<<<< HEAD
-void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData output)
-{
-    output = (InputData)0;
-
-    output.positionWS = input.positionWS.xyz;
-=======
 void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData inputData)
 {
     inputData = (InputData)0;
 
     inputData.positionWS = input.positionWS.xyz;
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 #ifdef _NORMALMAP
     half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);

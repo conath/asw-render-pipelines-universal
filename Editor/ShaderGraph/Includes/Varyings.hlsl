@@ -213,13 +213,6 @@ Varyings BuildVaryings(Attributes input)
         bool hasDeformation = unity_MotionVectorsParams.x > 0.0;
         float3 effectivePositionOS = (hasDeformation ? input.uv4.xyz : input.positionOS.xyz);
         float3 previousWS = TransformPreviousObjectToWorld(effectivePositionOS);
-<<<<<<< HEAD
-        output.prevPositionCS = TransformWorldToPrevHClip(previousWS);
-    }
-#endif
-
-#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
-=======
 
         float4x4 previousOTW = GetPrevObjectToWorldMatrix();
         float4x4 currentOTW = GetObjectToWorldMatrix();
@@ -235,7 +228,6 @@ Varyings BuildVaryings(Attributes input)
 #endif
 
 #if defined(VARYINGS_NEED_SHADOW_COORD) && defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     output.shadowCoord = GetShadowCoord(vertexInput);
 #endif
 

@@ -112,8 +112,6 @@ namespace UnityEngine.Rendering.Universal
     }
 
     /// <summary>
-<<<<<<< HEAD
-=======
     /// Defines if Unity discards or stores the render targets of the DrawObjects Passes. Selecting the Store option significantly increases the memory bandwidth on mobile and tile-based GPUs.
     /// </summary>
     public enum StoreActionsOptimization
@@ -127,7 +125,6 @@ namespace UnityEngine.Rendering.Universal
     }
 
     /// <summary>
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     /// Defines the update frequency for the Volume Framework.
     /// </summary>
     public enum VolumeFrameworkUpdateMode
@@ -140,8 +137,6 @@ namespace UnityEngine.Rendering.Universal
         UsePipelineSettings = 2,
     }
 
-<<<<<<< HEAD
-=======
     /// <summary>
     /// Defines the upscaling filter selected by the user the universal render pipeline asset.
     /// </summary>
@@ -157,7 +152,6 @@ namespace UnityEngine.Rendering.Universal
         FSR
     }
 
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     [ExcludeFromPreset]
     public partial class UniversalRenderPipelineAsset : RenderPipelineAsset, ISerializationCallbackReceiver
     {

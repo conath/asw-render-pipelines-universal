@@ -6,10 +6,6 @@
 
 #if ENABLE_VR && ENABLE_XR_MODULE
 
-#if UNITY_2020_3_OR_NEWER && !UNITY_2021_1_OR_NEWER && !UNITY_2020_3_1 && !UNITY_2020_3_2 && !UNITY_2020_3_3 && !UNITY_2020_3_4 && !UNITY_2020_3_5 && !UNITY_2020_3_6 && !UNITY_2020_3_7 && !UNITY_2020_3_8 && !UNITY_2020_3_9 && !UNITY_2020_3_10 && !UNITY_2020_3_11 && !UNITY_2020_3_12 && !UNITY_2020_3_13 && !UNITY_2020_3_14 && !UNITY_2020_3_15 && !UNITY_2020_3_16 && !UNITY_2020_3_17 && !UNITY_2020_3_18 && !UNITY_2020_3_19 && !UNITY_2020_3_20 && !UNITY_2020_3_21
-#define UNITY_2020_3_22_OR_NEWER
-#endif
-
 using System;
 using System.Collections.Generic;
 using UnityEngine.XR;
@@ -60,18 +56,8 @@ namespace UnityEngine.Rendering.Universal
         {
             projMatrix = renderParameter.projection;
             viewMatrix = renderParameter.view;
-<<<<<<< HEAD
-#if UNITY_2020_3_22_OR_NEWER
             prevViewValid = renderParameter.isPreviousViewValid;
             prevViewMatrix = (prevViewValid) ? renderParameter.previousView : Matrix4x4.identity;
-#else
-            prevViewValid = false;
-            prevViewMatrix = Matrix4x4.identity;
-#endif
-=======
-            prevViewValid = renderParameter.isPreviousViewValid;
-            prevViewMatrix = (prevViewValid) ? renderParameter.previousView : Matrix4x4.identity;
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             viewport = renderParameter.viewport;
             occlusionMesh = renderParameter.occlusionMesh;
             textureArraySlice = renderParameter.textureArraySlice;
@@ -117,11 +103,7 @@ namespace UnityEngine.Rendering.Universal
         internal Matrix4x4 GetProjMatrix(int viewIndex = 0)  { return views[viewIndex].projMatrix; }
         internal Matrix4x4 GetViewMatrix(int viewIndex = 0)  { return views[viewIndex].viewMatrix; }
         internal bool GetPrevViewValid(int viewIndex = 0) { return views[viewIndex].prevViewValid; }
-<<<<<<< HEAD
-        internal Matrix4x4 GetPrevViewMatrix(int viewIndex = 0)  { return views[viewIndex].prevViewMatrix; }
-=======
         internal Matrix4x4 GetPrevViewMatrix(int viewIndex = 0) { return views[viewIndex].prevViewMatrix; }
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         internal int GetTextureArraySlice(int viewIndex = 0) { return views[viewIndex].textureArraySlice; }
         internal Rect GetViewport(int viewIndex = 0)         { return views[viewIndex].viewport; }
 
@@ -270,10 +252,7 @@ namespace UnityEngine.Rendering.Universal
                 Debug.Assert(passInfo.motionVectorRenderTargetValid, "Invalid motion vector render target from XRDisplaySubsystem!");
             }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             return passInfo;
         }
 

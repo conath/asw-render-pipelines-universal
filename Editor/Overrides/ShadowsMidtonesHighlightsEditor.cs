@@ -35,15 +35,6 @@ namespace UnityEditor.Rendering.Universal
         {
             var o = new PropertyFetcher<ShadowsMidtonesHighlights>(serializedObject);
 
-<<<<<<< HEAD
-            m_Shadows         = Unpack(o.Find(x => x.shadows));
-            m_Midtones        = Unpack(o.Find(x => x.midtones));
-            m_Highlights      = Unpack(o.Find(x => x.highlights));
-            m_ShadowsStart    = Unpack(o.Find(x => x.shadowsStart));
-            m_ShadowsEnd      = Unpack(o.Find(x => x.shadowsEnd));
-            m_HighlightsStart = Unpack(o.Find(x => x.highlightsStart));
-            m_HighlightsEnd   = Unpack(o.Find(x => x.highlightsEnd));
-=======
             m_Shadows = Unpack(o.Find(x => x.shadows));
             m_Midtones = Unpack(o.Find(x => x.midtones));
             m_Highlights = Unpack(o.Find(x => x.highlights));
@@ -51,7 +42,6 @@ namespace UnityEditor.Rendering.Universal
             m_ShadowsEnd = Unpack(o.Find(x => x.shadowsEnd));
             m_HighlightsStart = Unpack(o.Find(x => x.highlightsStart));
             m_HighlightsEnd = Unpack(o.Find(x => x.highlightsEnd));
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
         }
 
         public override void OnInspectorGUI()
@@ -99,12 +89,6 @@ namespace UnityEditor.Rendering.Universal
             PropertyField(m_ShadowsEnd, EditorGUIUtility.TrTextContent("End"));
             m_ShadowsEnd.value.floatValue = Mathf.Max(m_ShadowsStart.value.floatValue, m_ShadowsEnd.value.floatValue);
 
-<<<<<<< HEAD
-            EditorGUILayout.Space();
-
-            EditorGUILayout.LabelField("Highlight Limits", EditorStyles.miniLabel);
-=======
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             PropertyField(m_HighlightsStart, EditorGUIUtility.TrTextContent("Start"));
             m_HighlightsStart.value.floatValue = Mathf.Min(m_HighlightsStart.value.floatValue, m_HighlightsEnd.value.floatValue);
             PropertyField(m_HighlightsEnd, EditorGUIUtility.TrTextContent("End"));

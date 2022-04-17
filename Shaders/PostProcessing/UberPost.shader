@@ -223,8 +223,6 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
                 // Assume color > 0 and prevent 0 - ditherNoise.
                 // Negative colors can cause problems if fed back to the postprocess via render to FP16 texture.
                 color = max(color, 0);
-<<<<<<< HEAD
-=======
             }
             #endif
 
@@ -234,7 +232,6 @@ Shader "Hidden/Universal Render Pipeline/UberPost"
             if(CanDebugOverrideOutputColor(half4(color, 1), uv, debugColor))
             {
                 return debugColor;
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
             }
             #endif
 

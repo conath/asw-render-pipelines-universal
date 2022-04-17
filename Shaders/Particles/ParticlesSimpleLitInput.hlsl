@@ -63,11 +63,7 @@ half4 SampleAlbedo(TEXTURE2D_PARAM(albedoMap, sampler_albedoMap), ParticleParams
     #if defined (_COLORADDSUBDIFF_ON)
         colorAddSubDiff = _BaseColorAddSubDiff;
     #endif
-<<<<<<< HEAD
-    albedo = MixParticleColor(albedo, params.vertexColor, colorAddSubDiff);
-=======
     albedo = MixParticleColor(albedo, half4(params.vertexColor), colorAddSubDiff);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
     AlphaDiscard(albedo.a, _Cutoff);
 

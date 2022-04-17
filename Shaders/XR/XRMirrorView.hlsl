@@ -29,13 +29,6 @@ Varyings VertQuad(Attributes input)
     output.positionCS = GetQuadVertexPosition(input.vertexID) * float4(_ScaleBiasRt.x, _ScaleBiasRt.y, 1, 1) + float4(_ScaleBiasRt.z, _ScaleBiasRt.w, 0, 0);
     output.positionCS.xy = output.positionCS.xy * float2(2.0f, -2.0f) + float2(-1.0f, 1.0f); //convert to -1..1
 
-<<<<<<< HEAD
-#if UNITY_UV_STARTS_AT_TOP
-    // Unity viewport convention is bottom left as origin. Adjust Scalebias to read the correct region.
-    _ScaleBias.w = 1 - _ScaleBias.w - _ScaleBias.y;
-#endif
-    output.texcoord = GetQuadTexCoord(input.vertexID) * _ScaleBias.xy + _ScaleBias.zw;
-=======
     //Using temporary as writing to global _ScaleBias.w is prohibited when compiling with DXC
     float scaleBiasW = _ScaleBias.w;
 #if UNITY_UV_STARTS_AT_TOP
@@ -43,7 +36,6 @@ Varyings VertQuad(Attributes input)
     scaleBiasW = 1 - _ScaleBias.w - _ScaleBias.y;
 #endif
     output.texcoord = GetQuadTexCoord(input.vertexID) * _ScaleBias.xy + float2(_ScaleBias.z, scaleBiasW);
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     return output;
 }
 

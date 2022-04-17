@@ -4,10 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-<<<<<<< HEAD
-using UnityEngine.Scripting.APIUpdating;
-=======
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 
 namespace UnityEditor.Rendering.Universal.ShaderGUI
 {
@@ -185,20 +181,6 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
                             EditorGUILayout.HelpBox("Soft Particles require depth texture. Please enable \"Depth Texture\" in the Universal Render Pipeline settings.", MessageType.Warning);
                         }
 
-<<<<<<< HEAD
-                    if (enabled >= 0.5f)
-                    {
-                        UniversalRenderPipelineAsset urpAsset = UniversalRenderPipeline.asset;
-                        if (urpAsset != null && !urpAsset.supportsCameraDepthTexture)
-                        {
-                            GUIStyle warnStyle = new GUIStyle(GUI.skin.label);
-                            warnStyle.fontStyle = FontStyle.BoldAndItalic;
-                            warnStyle.wordWrap = true;
-                            EditorGUILayout.HelpBox("Soft Particles require depth texture. Please enable \"Depth Texture\" in the Universal Render Pipeline settings.", MessageType.Warning);
-                        }
-
-=======
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
                         EditorGUI.indentLevel++;
                         BaseShaderGUI.TwoFloatSingleLine(Styles.softParticlesFadeText,
                             properties.softParticlesNearFadeDistance,

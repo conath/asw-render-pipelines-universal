@@ -15,8 +15,6 @@ struct Varyings
     UNITY_VERTEX_OUTPUT_STEREO
 };
 
-<<<<<<< HEAD
-=======
 bool IsSmoothRotation(float3 prevAxis1, float3 prevAxis2, float3 currAxis1, float3 currAxis2)
 {
     float angleThreshold = 0.984f; // cos(10 degrees)
@@ -41,7 +39,6 @@ Varyings vertParticles(Attributes input)
     return output;
 }
 
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
 Varyings vert(Attributes input)
 {
     Varyings output = (Varyings)0;
@@ -62,9 +59,6 @@ Varyings vert(Attributes input)
         bool hasDeformation = unity_MotionVectorsParams.x > 0.0;
         float3 effectivePositionOS = (hasDeformation ? input.previousPositionOS : input.positionOS.xyz);
         float3 previousWS = TransformPreviousObjectToWorld(effectivePositionOS);
-<<<<<<< HEAD
-        output.prevPositionCS = TransformWorldToPrevHClip(previousWS);
-=======
 
         float4x4 previousOTW = GetPrevObjectToWorldMatrix();
         float4x4 currentOTW = GetObjectToWorldMatrix();
@@ -76,7 +70,6 @@ Varyings vert(Attributes input)
         {
             output.prevPositionCS = TransformWorldToPrevHClip(previousWS);
         }
->>>>>>> 30e14a2ca18f7c4c9903767895c1ca15d1af6c76
     }
 
     return output;
